@@ -66,3 +66,121 @@ WHERE rank = 1;
 ```
 (To identify the most frequently occurring rating for each type of content.)
 
+## 3. List All Movies Released in a Specific Year (e.g., 2020)
+
+```sql
+SELECT * 
+FROM netflix
+WHERE release_year = 2020;
+```
+(To find out the movies released in the particular year =2020)
+
+## 4.  Find the Top 5 Countries with the Most Content on Netflix
+
+```sql
+SELECT * 
+FROM
+(
+    SELECT 
+        UNNEST(STRING_TO_ARRAY(country, ',')) AS country,
+        COUNT(*) AS total_content
+    FROM netflix
+    GROUP BY 1
+) AS t1
+WHERE country IS NOT NULL
+ORDER BY total_content DESC
+LIMIT 5;
+```
+(To find those 5 countries with the highest content on Netflix)
+
+## 5.  Identify the Longest Movie
+
+```sql
+SELECT 
+    *
+FROM netflix
+WHERE type = 'Movie'
+ORDER BY SPLIT_PART(duration, ' ', 1)::INT DESC;
+```
+(To find out the longest movie)
+
+## 6. Find Content Added in the Last 5 Years
+
+```sql
+SELECT *
+FROM netflix
+WHERE TO_DATE(date_added, 'Month DD, YYYY') >= CURRENT_DATE - INTERVAL '5 years';
+```
+(To find the latest content added in the last 5 years)
+
+## 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
+
+```sql
+SELECT *
+FROM (
+    SELECT 
+        *,
+        UNNEST(STRING_TO_ARRAY(director, ',')) AS director_name
+    FROM netflix
+) AS t
+WHERE director_name = 'Rajiv Chilaka';
+```
+(To find Movies and Tv shows by director Rajiv Chilaka)
+
+## 8. List All TV Shows with More Than 5 Seasons
+
+```sql
+SELECT *
+FROM netflix
+WHERE type = 'TV Show'
+  AND SPLIT_PART(duration, ' ', 1)::INT > 5;
+```
+(To find TV shows with more than 5 seasons)
+
+## 9. Count the Number of Content Items in Each Genre
+
+```sql
+SELECT 
+    UNNEST(STRING_TO_ARRAY(listed_in, ',')) AS genre,
+    COUNT(*) AS total_content
+FROM netflix
+GROUP BY 1;
+```
+(Count the number of content generated in each genre)
+
+## 10.  List All Movies that are Documentaries
+```sql
+SELECT * 
+FROM netflix
+WHERE listed_in LIKE '%Documentaries';
+(To calculate and find )
+```
+(To find out documentary movies)
+
+## 11. Find How Many Movies Actor 'Salman Khan' Appeared in the Last 10 Years
+
+```sql
+SELECT * 
+FROM netflix
+WHERE casts LIKE '%Salman Khan%'
+  AND release_year > EXTRACT(YEAR FROM CURRENT_DATE) - 10;
+```
+(To find out the number of movies in which Salman Khan appeared in Last 10 years)
+
+## 12. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords
+
+```sql
+SELECT 
+    category,
+    COUNT(*) AS content_count
+FROM (
+    SELECT 
+        CASE 
+            WHEN description ILIKE '%kill%' OR description ILIKE '%violence%' THEN 'Bad'
+            ELSE 'Good'
+        END AS category
+    FROM netflix
+) AS categorized_content
+GROUP BY category;
+```
+(To categorize movies based on the keywords)
