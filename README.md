@@ -6,4 +6,5 @@ This project focuses on a comprehensive analysis of Netflix’s movies and TV sh
 2. Analyze Netflix content based on release years, countries, and durations to explore content popularity and trend over time
 3. Identify the most common ratings for movies and TV shows to uncover patterns and viewer preferences.
 
-Kaggle Dataset Link: ([url](https://www.kaggle.com/datasets/shivamb/netflix-shows?resource=download))
+Kaggle Dataset Link: ([LINK](https://www.kaggle.com/datasets/shivamb/netflix-shows?resource=download))
+
