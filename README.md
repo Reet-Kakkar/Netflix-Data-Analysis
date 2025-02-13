@@ -184,3 +184,21 @@ FROM (
 GROUP BY category;
 ```
 (To categorize movies based on the keywords)
+
+13. Find the Top 10 Actors Who Have Appeared in the Highest Number of Movies Produced in India
+
+```sql
+SELECT 
+    UNNEST(STRING_TO_ARRAY(casts, ',')) AS actor,
+    COUNT(*)
+FROM netflix
+WHERE country = 'India'
+GROUP BY actor
+ORDER BY COUNT(*) DESC
+LIMIT 10;
+```
+(To find out the top 10 actors with the most appearances in Indian-produced movies.)
+
+# Conclusion:
+
+This project successfully utilized SQL to analyze Netflix's movie and TV show dataset, answering key business-relevant questions about the distribution of content types, viewer preferences, content release patterns, and specific categorizations based on keywords. Through SQL queries, we were able to uncover insights such as the most common ratings, top countries with the most Netflix content, and the longest movie in the catalog. This comprehensive analysis provided valuable insights into the content structure of Netflix, allowing for better understanding of audience preferences.
